@@ -1,3 +1,10 @@
+import pytesseract
+from PIL import Image
+
+# Tambahkan path Tesseract OCR (ganti sesuai dengan instalasi Anda)
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+
 import argparse
 import csv
 import os
@@ -170,7 +177,30 @@ def run(
                     n = (det[:, 5] == c).sum()  # detections per class
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
 
-                # Write results
+                # # Write results
+                # for *xyxy, conf, cls in reversed(det):
+                #     c = int(cls)  # integer class
+                #     label = names[c] if hide_conf else f"{names[c]}"
+                #     confidence = float(conf)
+                #     confidence_str = f"{confidence:.2f}"
+
+                #     if save_csv:
+                #         write_to_csv(p.name, label, confidence_str)
+
+                #     if save_txt:  # Write to file
+                #         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
+                #         line = (cls, *xywh, conf) if save_conf else (cls, *xywh)  # label format
+                #         with open(f"{txt_path}.txt", "a") as f:
+                #             f.write(("%g " * len(line)).rstrip() % line + "\n")
+
+                #     if save_img or save_crop or view_img:  # Add bbox to image
+                #         c = int(cls)  # integer class
+                #         label = None if hide_labels else (names[c] if hide_conf else f"{names[c]} {conf:.2f}")
+                #         annotator.box_label(xyxy, label, color=colors(c, True))
+                #     if save_crop:
+                #         save_one_box(xyxy, imc, file=save_dir / "crops" / names[c] / f"{p.stem}.jpg", BGR=True)
+                
+                
                 for *xyxy, conf, cls in reversed(det):
                     c = int(cls)  # integer class
                     label = names[c] if hide_conf else f"{names[c]}"
@@ -190,8 +220,13 @@ def run(
                         c = int(cls)  # integer class
                         label = None if hide_labels else (names[c] if hide_conf else f"{names[c]} {conf:.2f}")
                         annotator.box_label(xyxy, label, color=colors(c, True))
-                    if save_crop:
-                        save_one_box(xyxy, imc, file=save_dir / "crops" / names[c] / f"{p.stem}.jpg", BGR=True)
+                    
+                    # Jika kelas adalah "plat", ekstrak teks menggunakan Tesseract OCR
+                    if names[c] == "plat":
+                        plate_image = im0[int(xyxy[1]):int(xyxy[3]), int(xyxy[0]):int(xyxy[2])]
+                        pil_image = Image.fromarray(plate_image)
+                        plate_text = pytesseract.image_to_string(pil_image, config='--psm 8 --oem 3')  # Sesuaikan konfigurasi sesuai kebutuhan
+                        print(f"Deteksi Plat: {plate_text}")
 
             # Stream results
             im0 = annotator.result()
