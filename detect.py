@@ -136,7 +136,6 @@ def run(
         # NMS
         with dt[2]:
             pred = non_max_suppression(pred, conf_thres, iou_thres, classes, agnostic_nms, max_det=max_det)
-
         # Second-stage classifier (optional)
         # pred = utils.general.apply_classifier(pred, classifier_model, im, im0s)
 
@@ -200,7 +199,8 @@ def run(
                 #     if save_crop:
                 #         save_one_box(xyxy, imc, file=save_dir / "crops" / names[c] / f"{p.stem}.jpg", BGR=True)
                 
-                
+#############################################################################################################################################################
+
                 for *xyxy, conf, cls in reversed(det):
                     c = int(cls)  # integer class
                     label = names[c] if hide_conf else f"{names[c]}"
@@ -226,7 +226,14 @@ def run(
                         plate_image = im0[int(xyxy[1]):int(xyxy[3]), int(xyxy[0]):int(xyxy[2])]
                         pil_image = Image.fromarray(plate_image)
                         plate_text = pytesseract.image_to_string(pil_image, config='--psm 8 --oem 3')  # Sesuaikan konfigurasi sesuai kebutuhan
-                        print(f"Deteksi Plat: {plate_text}")
+
+                        # Membersihkan output agar hanya huruf dan angka kapital
+                        cleaned_plate_text = ''.join(char.upper() for char in plate_text if char.isalnum())
+
+                        print(f"Deteksi Plat: {cleaned_plate_text}")
+
+
+#############################################################################################################################################################
 
             # Stream results
             im0 = annotator.result()
