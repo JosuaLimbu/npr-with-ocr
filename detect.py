@@ -1,10 +1,5 @@
 import pytesseract
 from PIL import Image
-
-# Tambahkan path Tesseract OCR (ganti sesuai dengan instalasi Anda)
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
-
 import argparse
 import csv
 import os
@@ -15,6 +10,8 @@ from pathlib import Path
 
 pathlib.PosixPath = pathlib.WindowsPath
 import torch
+
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
@@ -201,7 +198,7 @@ def run(
                 
 #############################################################################################################################################################
 
-                for *xyxy, conf, cls in reversed(det):
+                for *xyxy, conf, cls in reversed(det):  
                     c = int(cls)  # integer class
                     label = names[c] if hide_conf else f"{names[c]}"
                     confidence = float(conf)
@@ -220,17 +217,27 @@ def run(
                         c = int(cls)  # integer class
                         label = None if hide_labels else (names[c] if hide_conf else f"{names[c]} {conf:.2f}")
                         annotator.box_label(xyxy, label, color=colors(c, True))
-                    
-                    # Jika kelas adalah "plat", ekstrak teks menggunakan Tesseract OCR
+
                     if names[c] == "plat":
                         plate_image = im0[int(xyxy[1]):int(xyxy[3]), int(xyxy[0]):int(xyxy[2])]
+                        gray_plate_image = cv2.cvtColor(plate_image, cv2.COLOR_BGR2GRAY)  # Convert to grayscale
+
+                        # Normalisasi gambar
+                        # Normalisasi dilakukan di sini
+
+                        # Simpan gambar yang sudah dinormalisasi
+                        normalized_plate_image_path = "E:/New/yolov5-objectdetect/normalized/normalized_plate_image.jpg"
+                        cv2.imwrite(normalized_plate_image_path, plate_image)
+
+                        # Baca teks dari gambar yang sudah dinormalisasi
                         pil_image = Image.fromarray(plate_image)
-                        plate_text = pytesseract.image_to_string(pil_image, config='--psm 8 --oem 3')  # Sesuaikan konfigurasi sesuai kebutuhan
+                        plate_text = pytesseract.image_to_string(pil_image, config='--psm 8 --oem 3')
 
                         # Membersihkan output agar hanya huruf dan angka kapital
                         cleaned_plate_text = ''.join(char.upper() for char in plate_text if char.isalnum())
 
                         print(f"Deteksi Plat: {cleaned_plate_text}")
+
 
 
 #############################################################################################################################################################
