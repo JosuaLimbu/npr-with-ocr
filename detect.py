@@ -7,6 +7,7 @@ import platform
 import sys
 import pathlib
 from pathlib import Path
+from mysql_utils import write_to_mysql
 
 pathlib.PosixPath = pathlib.WindowsPath
 import torch
@@ -237,6 +238,7 @@ def run(
                         cleaned_plate_text = ''.join(char.upper() for char in plate_text if char.isalnum())
 
                         print(f"Deteksi Plat: {cleaned_plate_text}")
+                        write_to_mysql(cleaned_plate_text)
 
 
 
