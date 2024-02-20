@@ -11,14 +11,14 @@ def write_to_mysql(cleaned_plate_text):
     try:
         with conn.cursor() as cursor:
             # Menyiapkan pernyataan SQL untuk memasukkan data ke dalam tabel platedetect
-            sql = "INSERT INTO platedetect (number_plate, date) VALUES (%s, %s)"
+            sql = "INSERT INTO tbl_platedetect (number_plate, date) VALUES (%s, %s)"
             
             # Menjalankan pernyataan SQL untuk memasukkan data ke dalam tabel
             cursor.execute(sql, (cleaned_plate_text, current_time))
         
         # Commit perubahan ke database
         conn.commit()
-        print("Data berhasil dimasukkan ke dalam tabel platedetect.")
+        print("Success.")
     except Exception as e:
         print(f"Error: {e}")
     finally:

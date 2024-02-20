@@ -20,5 +20,4 @@ def hello_world():
 def opencam():
     print("here")
     subprocess.run(['python3', 'detect.py', '--source', '0'])
-    return render_template('index.html')
     

@@ -7,7 +7,7 @@ import platform
 import sys
 import pathlib
 from pathlib import Path
-from mysql_utils import write_to_mysql
+from mysql import write_to_mysql
 
 pathlib.PosixPath = pathlib.WindowsPath
 import torch
