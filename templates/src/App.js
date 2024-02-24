@@ -28,6 +28,26 @@ function App() {
     return () => clearInterval(intervalId);
   }, []); // Kondisi dependency kosong agar hanya dijalankan sekali saat komponen dipasang
 
+  const handleOpenCamera = () => {
+    fetch('http://localhost:5000/opencam', { method: 'GET' })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to open camera');
+        }
+      })
+      .catch(error => console.error('Error opening camera:', error));
+  };
+
+  const handleStopCamera = () => {
+    fetch('http://localhost:5000/stopcam', { method: 'GET' })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to stop camera');
+        }
+      })
+      .catch(error => console.error('Error stopping camera:', error));
+  };
+
   return (
     <div>
       <h1>Data Plate Detect</h1>
@@ -37,9 +57,8 @@ function App() {
           <p>{latestPlate}</p>
         </div>
         <div>
-          <a href="http://127.0.0.1:5000/opencam" rel="noopener noreferrer">
-            <button>Open Camera</button>
-          </a>
+          <button onClick={handleOpenCamera}>Open Camera</button>
+          <button onClick={handleStopCamera}>Stop Camera</button> {/* Tambahkan button untuk menghentikan kamera */}
           <table>
             <thead>
               <tr>

@@ -8,6 +8,7 @@ import sys
 import pathlib
 from pathlib import Path
 from mysql import write_to_mysql
+import sys
 
 pathlib.PosixPath = pathlib.WindowsPath
 import torch
@@ -325,7 +326,6 @@ def parse_opt():
 def main(opt):
     check_requirements(ROOT / "requirements.txt", exclude=("tensorboard", "thop"))
     run(**vars(opt))
-
 
 if __name__ == "__main__":
     opt = parse_opt()
