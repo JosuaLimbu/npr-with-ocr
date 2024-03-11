@@ -10,16 +10,12 @@
     <h1>Video Stream</h1>
     <img id="video_feed" src="" width="640" height="480" style="display:block;">
     <script>
-        // Function to update the image every 0.05 seconds
         function updateImage() {
             $.get("/image_feed", function(data) {
-                // Update the src attribute of the image tag with the new image
-                $("#video_feed").attr("src", "/image_feed?" + new Date().getTime()); // Append timestamp to force browser refresh
-                // Schedule the next update after 0.05 seconds
+                $("#video_feed").attr("src", "/image_feed?" + new Date().getTime()); 
                 setTimeout(updateImage, 50);
             });
         }
-        // Call the updateImage function to start updating the image
         updateImage();
     </script>
 </body>

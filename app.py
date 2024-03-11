@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 IMAGE_FOLDER = "videostream"
-# Variabel global untuk menyimpan proses yang sedang berjalan
+
 running_process = None
 
 @app.route("/")
@@ -16,9 +16,7 @@ def hello_world():
 def opencam():
     global running_process
     print("Proses")
-    # Memeriksa apakah ada proses yang sedang berjalan
     if running_process is None:
-        # Jika tidak ada proses yang berjalan, jalankan proses baru
         running_process = subprocess.Popen(['python3', 'detect3.py', '--source', '0'])
     else:
         print("Process is already running")
@@ -37,10 +35,7 @@ def stopterminal():
 
 @app.route("/image_feed")
 def image_feed():
-    # Path lengkap ke gambar
     image_path = os.path.join(IMAGE_FOLDER, "0_detected.jpg")
-
-    # Memeriksa apakah file gambar ada
     if os.path.exists(image_path):
         return send_file(image_path, mimetype='image/jpeg')
     else:
