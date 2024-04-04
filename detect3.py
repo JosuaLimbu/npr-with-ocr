@@ -233,7 +233,7 @@ def run(
                         # Normalisasi dilakukan di sini
 
                         # Simpan gambar yang sudah dinormalisasi
-                        normalized_plate_image_path = "E:/New/yolov5-objectdetect/normalized/normalized_plate_image.jpg"
+                        normalized_plate_image_path = "E:/xampp/htdocs/u-park/yolov5/normalized/normalized_plate_image.jpg"
                         cv2.imwrite(normalized_plate_image_path, plate_image)
 
                         # Baca teks dari gambar yang sudah dinormalisasi
@@ -245,7 +245,6 @@ def run(
 
                         print(f"Deteksi Plat: {cleaned_plate_text}")
                         write_to_mysql(cleaned_plate_text)
-                        shutil.copy("data/images", "videostream")
 
 
 #############################################################################################################################################################

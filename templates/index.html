@@ -7,16 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1>Video Stream</h1>
-    <img id="video_feed" src="" width="640" height="480" style="display:block;">
-    <script>
-        function updateImage() {
-            $.get("/image_feed", function(data) {
-                $("#video_feed").attr("src", "/image_feed?" + new Date().getTime()); 
-                setTimeout(updateImage, 50);
-            });
-        }
-        updateImage();
-    </script>
+    <h1>Welcome to Yolov5</h1>
+    <p>This number plate recognition is mine wokeh bruh?</p>
 </body>
 </html>

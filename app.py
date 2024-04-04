@@ -21,7 +21,7 @@ def opencam():
     else:
         print("Process is already running")
     
-@app.route("/stopcam", methods=['GET'])
+@app.route("/closecam", methods=['GET'])
 def stopterminal():
     global running_process
     print("Stop Kamera")
