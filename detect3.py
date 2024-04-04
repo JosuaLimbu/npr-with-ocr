@@ -9,6 +9,8 @@ import pathlib
 from pathlib import Path
 from mysql import write_to_mysql
 import sys
+import shutil
+import time
 
 pathlib.PosixPath = pathlib.WindowsPath
 import torch
@@ -161,6 +163,8 @@ def run(
 
             p = Path(p)  # to Path
             save_path = str(save_dir / p.name)  # im.jpg
+            save_path = f"videostream/{p.stem}_detected.jpg"  # Path to save the detected image
+            txt_path = f"videostream/{p.stem}.txt"  # Path to save the labels
             txt_path = str(save_dir / "labels" / p.stem) + ("" if dataset.mode == "image" else f"_{frame}")  # im.txt
             s += "%gx%g " % im.shape[2:]  # print string
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
@@ -219,7 +223,8 @@ def run(
                         c = int(cls)  # integer class
                         label = None if hide_labels else (names[c] if hide_conf else f"{names[c]} {conf:.2f}")
                         annotator.box_label(xyxy, label, color=colors(c, True))
-
+                    if save_img:
+                        cv2.imwrite(save_path, im0)
                     if names[c] == "plat":
                         plate_image = im0[int(xyxy[1]):int(xyxy[3]), int(xyxy[0]):int(xyxy[2])]
                         gray_plate_image = cv2.cvtColor(plate_image, cv2.COLOR_BGR2GRAY)  # Convert to grayscale
@@ -228,7 +233,7 @@ def run(
                         # Normalisasi dilakukan di sini
 
                         # Simpan gambar yang sudah dinormalisasi
-                        normalized_plate_image_path = "E:/New/yolov5-objectdetect/normalized/normalized_plate_image.jpg"
+                        normalized_plate_image_path = "E:/xampp/htdocs/u-park/yolov5/normalized/normalized_plate_image.jpg"
                         cv2.imwrite(normalized_plate_image_path, plate_image)
 
                         # Baca teks dari gambar yang sudah dinormalisasi
@@ -240,7 +245,6 @@ def run(
 
                         print(f"Deteksi Plat: {cleaned_plate_text}")
                         write_to_mysql(cleaned_plate_text)
-
 
 
 #############################################################################################################################################################
@@ -260,19 +264,8 @@ def run(
                 if dataset.mode == "image":
                     cv2.imwrite(save_path, im0)
                 else:  # 'video' or 'stream'
-                    if vid_path[i] != save_path:  # new video
-                        vid_path[i] = save_path
-                        if isinstance(vid_writer[i], cv2.VideoWriter):
-                            vid_writer[i].release()  # release previous video writer
-                        if vid_cap:  # video
-                            fps = vid_cap.get(cv2.CAP_PROP_FPS)
-                            w = int(vid_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-                            h = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-                        else:  # stream
-                            fps, w, h = 30, im0.shape[1], im0.shape[0]
-                        save_path = str(Path(save_path).with_suffix(".mp4"))  # force *.mp4 suffix on results videos
-                        vid_writer[i] = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
-                    vid_writer[i].write(im0)
+                    cv2.imwrite(save_path, im0)
+
 
         # Print time (inference-only)
         # LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
@@ -325,7 +318,9 @@ def parse_opt():
 
 def main(opt):
     check_requirements(ROOT / "requirements.txt", exclude=("tensorboard", "thop"))
-    run(**vars(opt))
+    while True:
+        run(**vars(opt))
+        time.sleep(0.1)
 
 if __name__ == "__main__":
     opt = parse_opt()
