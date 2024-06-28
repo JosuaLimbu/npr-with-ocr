@@ -23,13 +23,13 @@ def write_to_mysql(cleaned_plate_text):
         conn.close()
 
 # Tes fungsi write_to_mysql
-def test_write_to_mysql():
-    plate_number = "B1034RF"
-    write_to_mysql(plate_number)
-test_write_to_mysql()
+# def test_write_to_mysql():
+#     plate_number = "B1034RF"
+#     write_to_mysql(plate_number)
+# test_write_to_mysql()
 
 
-############################### POST melalui REST API localhost ######################################################################
+############################### POST melalui REST API localho   st ######################################################################
 
 # import socket
 # import requests
