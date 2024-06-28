@@ -15,8 +15,8 @@
 *.cfg
 !setup.cfg
 !cfg/yolov3*.cfg
-yolov5s.pt
-yolov5s2.pt
+
+
 
 storage.googleapis.com
 runs/*
@@ -36,6 +36,8 @@ results*.csv
 coco/
 coco128/
 VOC/
+yolov5s.pt
+yolov5s2.pt
 
 # MATLAB GitIgnore -----------------------------------------------------------------------------------------------------
 *.m~
