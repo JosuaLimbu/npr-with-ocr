@@ -16,44 +16,44 @@ After that, open git bash and follow these commands
 $ git clone https://github.com/JosuaLimbu/npr-tesseract.git
 $ cd npr-with-ocr
 $ pip install -r requirements.txt
-$ python3 detect3.py
+$ python3 detect.py
 ```
 
 ## Performance Evaluation
 
 **Precison-Recall Value**
 
-![Precison-Recall Value](img/PR_curve.png)
+<img src="img/PR_curve.png" alt="Precision-Recall Value" width="50%">
 
 The training results demonstrated high performance, with an average precision-recall value reaching 0.953 mAP@0.5 in relation to the recall, The precision-recall curve is shown, indicating the model's performance in accurately detecting objects.
 
 **Recall-Confidence Value**
 
-![Recall-Confidence Value](img/R_curve.png)
+<img src="img/R_curve.png" alt="Recall-Confidence Value" width="50%">
 
 The highest average recall reaches 0.97 at a confidence level of 0.00
 
 **The Results of the Training Data Evaluation**
 
-![Result](img/results.png)
+<img src="img/results.png" alt="Result" width="50%">
 
 All test results are stored in the directory runs/train/exp. The tests were conducted using the parameters batch = 16 and epoch = 50
 
 **F1-Confidence Value**
 
-![F1-Confidence Value](img/F1_curve.png)
+<img src="img/F1_curve.png" alt="F1-Confidence Value" width="50%">
 
 The peak F1 score reaches 0.93 at a confidence level of 0.516
 
 **Precision-Confidence Value**
 
-![Precision-Confidence Value](img/P_curve.png)
+<img src="img/P_curve.png" alt="Precision-Confidence Value" width="50%">
 
 The Precision score reaches 1.00 at a confidence level of 0.966
 
 **Confusion Matrix**
 
-![Confusion Matrix](img/confusion_matrix.png)
+<img src="img/confusion_matrix.png" alt="Confusion Matrix" width="50%">
 
 A confusion matrix is a valuable tool for assessing the effectiveness of a classification model, displaying the counts of correct and incorrect predictions for each category. It provides insights into true positives (TP), true negatives (TN), false positives (FP), and false negatives (FN), which are essential for calculating additional metrics like accuracy, precision, and recall. Analyzing the confusion matrix helps researchers understand the model's strengths and weaknesses in classifying different categories, enabling more targeted improvements in future iterations.
 
