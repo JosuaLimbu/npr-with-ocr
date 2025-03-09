@@ -15,7 +15,7 @@ Install [Git Bash](https://git-scm.com/downloads), [Python](https://www.python.o
 After that, open git bash and follow these commands
 
 ```bash
-$ git clone https://github.com/JosuaLimbu/npr-tesseract.git
+$ git clone https://github.com/JosuaLimbu/npr-with-ocr.git
 $ cd npr-with-ocr
 $ pip install -r requirements.txt
 $ python3 detect.py
